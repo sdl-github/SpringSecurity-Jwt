@@ -1,0 +1,12 @@
+ ${AnsiColor.BRIGHT_CYAN}
+ _______
+ /_  __(_)___ ___  ___  _____
+  / / / / __ `__ \/ _ \/ ___/
+ / / / / / / / / /  __(__  ) 
+/_/ /_/_/ /_/ /_/\___/____/
+
+
+${AnsiColor.BRIGHT_BLUE}
+Application Name: ${spring.application.name}
+Server Port: ${server.port}
+Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
