@@ -3,6 +3,7 @@ package com.sdl.times.common.security;
 import com.sdl.times.common.security.filter.JwtAuthenticationTokenFilter;
 import com.sdl.times.common.security.handle.AcessDecisionHandlerImpl;
 import com.sdl.times.common.security.handle.AuthenticationEntryPointImpl;
+import com.sdl.times.common.security.handle.LogoutSuccessHandlerImpl;
 import com.sdl.times.common.security.service.MyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,29 +20,50 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    //登录成功/失败处理器在Loginservice中实现
     /**
      * 认证失败处理
      */
     @Autowired
     private AuthenticationEntryPointImpl unauthentication;
+    /**
+     * 拒绝访问处理
+     */
     @Autowired
     private AcessDecisionHandlerImpl acessDecisionHandler;
     /**
-     * 请求之前拦截查看token
+     * 请求之前拦截拦截token
      */
     @Autowired
     private JwtAuthenticationTokenFilter authenticationTokenFilter;
+    /**
+     * 用户身份认证处理
+     */
     @Autowired
     private MyUserDetailService userDetailService;
+    /**
+     * Bcr密码encoder
+     */
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    /**
+     * 动态权限控制
+     */
     @Autowired
     private DynamicPermission dynamicPermission;
+    @Autowired
+    private LogoutSuccessHandlerImpl logoutSuccessHandler;
+
+    /**
+     * 解决AuthenticationManager无法注入
+     * 在LoginService中
+     * @return
+     * @throws Exception
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception
@@ -61,18 +83,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 过滤请求
                 .authorizeRequests()
-                // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/login").anonymous()
+                // 允许匿名访问
+                .antMatchers("/auth/login").anonymous()
+                // 认证后授权访问
+                .antMatchers("/auth/getInfo","/auth/getMenu").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
-
                 .anyRequest().access("@dynamicPermission.checkPermission(request,authentication)")//动态匹配菜单权限
-
                 .and()
                 //不拦截iframe
                 .headers().frameOptions().disable()
                 .and()
                 // 添加JWT filter
-                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
     }
     /**
      * 忽略拦截url或静态资源文件夹

@@ -1,6 +1,5 @@
 package com.sdl.times.common.security.service;
 import com.sdl.times.common.exception.CustomException;
-import com.sdl.times.common.exception.user.UserPasssWordNotMatch;
 import com.sdl.times.common.security.model.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,12 +16,12 @@ public class LoginService {
     public String login(String username,String password){
         Authentication authentication = null;
         try{
-            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+            // 该方法会去调用MyUserDetailService.loadUserByUsername
             authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(username, password));
         }catch (Exception e){
             if (e instanceof BadCredentialsException){
-                throw new UserPasssWordNotMatch();
+                throw new CustomException("用户名或密码错误");
             }else {
                 throw new CustomException(e.getMessage());
             }

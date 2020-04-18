@@ -7,8 +7,7 @@ public class StringUtil {
      * @param object Object
      * @return true：为空 false：非空
      */
-    public static boolean isNull(Object object)
-    {
+    public static boolean isNull(Object object) {
         return object == null;
     }
 
@@ -18,8 +17,7 @@ public class StringUtil {
      * @param object Object
      * @return true：非空 false：空
      */
-    public static boolean isNotNull(Object object)
-    {
+    public static boolean isNotNull(Object object) {
         return !isNull(object);
     }
     /**
@@ -28,8 +26,7 @@ public class StringUtil {
      * @param str String
      * @return true：为空 false：非空
      */
-    public static boolean isEmpty(String str)
-    {
+    public static boolean isEmpty(String str) {
         return isNull(str) || "".equals(str.trim());
     }
 
@@ -39,8 +36,7 @@ public class StringUtil {
      * @param str String
      * @return true：非空串 false：空串
      */
-    public static boolean isNotEmpty(String str)
-    {
+    public static boolean isNotEmpty(String str) {
         return !isEmpty(str);
     }
 

@@ -2,56 +2,88 @@ package com.sdl.times.system.entity;
 
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * (Menu)实体类
  *
- * @author makejava
- * @since 2020-03-24 15:18:04
+ * @author sdl
+ * @since 2020-04-09 17:46:43
  */
-public class Menu implements Serializable {
-    private static final long serialVersionUID = -44698896688316158L;
+public class Menu implements Serializable, Comparable<Menu> {
+    private static final long serialVersionUID = -87720321632292123L;
     /**
     * 主键
     */
     private Integer id;
     /**
-    * 上级资源ID
+    * 图标
     */
-    private String pid;
-    /**
-    * url
-    */
-    private String url;
-    /**
-    * 资源编码
-    */
-    private String resources;
+    private String icon;
     /**
     * 资源名称
     */
-    private String title;
+    private String name;
     /**
-    * 资源图标
+    * 上级ID
     */
-    private String icon;
+    private Integer pid;
+    /**
+    * 排序
+    */
+    private Integer sort;
+    /**
+    * 组件
+    */
+    private String component;
+    /**
+    * 访问地址
+    */
+    private String apiUrl;
     /**
     * 类型 menu、button
     */
     private String type;
     /**
-    * 备注
+    * 是否隐藏
     */
-    private String remarks;
+    private Integer hidden;
     /**
     * 创建时间
     */
     private Date gmtCreate;
-    /**
-    * 更新时间
-    */
-    private Date gmtModified;
 
+    private List<Menu> children;
+
+    @Override
+    public String toString() {
+        return "Menu{" +
+                "id=" + id +
+                ", icon='" + icon + '\'' +
+                ", name='" + name + '\'' +
+                ", pid=" + pid +
+                ", sort=" + sort +
+                ", component='" + component + '\'' +
+                ", apiUrl='" + apiUrl + '\'' +
+                ", type='" + type + '\'' +
+                ", hidden=" + hidden +
+                ", gmtCreate=" + gmtCreate +
+                ", children=" + children +
+                '}';
+    }
+
+    @Override
+    public int compareTo(Menu o) {
+        return this.getSort().compareTo(o.getSort());
+    }
+
+    public List<Menu> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Menu> children) {
+        this.children = children;
+    }
 
     public Integer getId() {
         return id;
@@ -59,38 +91,6 @@ public class Menu implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getResources() {
-        return resources;
-    }
-
-    public void setResources(String resources) {
-        this.resources = resources;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getIcon() {
@@ -101,6 +101,47 @@ public class Menu implements Serializable {
         this.icon = icon;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
+
     public String getType() {
         return type;
     }
@@ -109,12 +150,12 @@ public class Menu implements Serializable {
         this.type = type;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public Integer getHidden() {
+        return hidden;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setHidden(Integer hidden) {
+        this.hidden = hidden;
     }
 
     public Date getGmtCreate() {
@@ -125,27 +166,4 @@ public class Menu implements Serializable {
         this.gmtCreate = gmtCreate;
     }
 
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
-
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", pid='" + pid + '\'' +
-                ", url='" + url + '\'' +
-                ", resources='" + resources + '\'' +
-                ", title='" + title + '\'' +
-                ", icon='" + icon + '\'' +
-                ", type='" + type + '\'' +
-                ", remarks='" + remarks + '\'' +
-                ", gmtCreate=" + gmtCreate +
-                ", gmtModified=" + gmtModified +
-                '}';
-    }
 }

@@ -4,6 +4,7 @@ import com.sdl.times.system.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
+import java.util.Set;
 
 /**
  * (Menu)表数据库访问层
@@ -14,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface MenuDao {
     List<Menu> queryByUserId(Integer userId);
-    List<Menu> queryByUserName(String userName);
+    Set<Menu> queryByUserName(String userName);
     /**
      * 通过ID查询单条数据
      *

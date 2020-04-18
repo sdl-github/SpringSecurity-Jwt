@@ -13,10 +13,11 @@ public class CustomException extends RuntimeException {
      * 错误信息
      */
     private String message;
+
     public CustomException(String message) {
         this.message = message;
     }
-    public CustomException(String message, Integer code) {
+    public CustomException(Integer code, String message ) {
         this.message = message;
         this.code = code;
     }
@@ -31,4 +32,5 @@ public class CustomException extends RuntimeException {
     public Integer getCode() {
         return code;
     }
+
 }

@@ -7,8 +7,7 @@ public class SecurityUtil {
     /**
      * 获取Authentication
      */
-    public static Authentication getAuthentication()
-    {
+    public static Authentication getAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 }

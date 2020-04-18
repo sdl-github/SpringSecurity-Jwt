@@ -1,5 +1,7 @@
 package com.sdl.times.system.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -22,6 +24,7 @@ public class User implements Serializable {
     /**
     * 登录密码
     */
+    @JsonIgnore
     private String password;
     /**
     * 昵称

@@ -1,16 +1,14 @@
 package com.sdl.times.system.service;
 
-import com.sdl.times.system.dao.RoleDao;
 import com.sdl.times.system.entity.Role;
-import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
+
 import java.util.List;
 
-@Service
-public class RoleService {
-    @Resource
-    RoleDao roleDao;
-    public List<Role> findRoleByUserId(Integer userId){
-       return roleDao.queryByUserId(userId);
-    }
+/**
+ * @author sdl
+ * @date 2020/4/16 6:16 下午
+ * @description
+ */
+public interface RoleService {
+    public List<Role> findRoleByUserId(Integer userId);
 }

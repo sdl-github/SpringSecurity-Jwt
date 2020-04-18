@@ -4,31 +4,25 @@
 
     <resultMap type="com.sdl.times.system.entity.Menu" id="MenuMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
-        <result property="pid" column="pid" jdbcType="VARCHAR"/>
-        <result property="url" column="url" jdbcType="VARCHAR"/>
-        <result property="resources" column="resources" jdbcType="VARCHAR"/>
-        <result property="title" column="title" jdbcType="VARCHAR"/>
         <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="component" column="component" jdbcType="VARCHAR"/>
+        <result property="apiUrl" column="api_url" jdbcType="VARCHAR"/>
         <result property="type" column="type" jdbcType="VARCHAR"/>
-        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="hidden" column="hidden" jdbcType="INTEGER"/>
         <result property="gmtCreate" column="gmt_create" jdbcType="TIMESTAMP"/>
-        <result property="gmtModified" column="gmt_modified" jdbcType="TIMESTAMP"/>
     </resultMap>
-
     <select id="queryByUserName" resultMap="MenuMap">
      SELECT DISTINCT m.*
        FROM user u,user_role ur,menu_role mr,menu m
-       where u.id = ur.user_id and m.id = mr.menu_id and ur.role_id = mr.role_id and u.username = #{userName}
-    </select>
-    <select id="queryByUserId" resultMap="MenuMap">
-     SELECT DISTINCT m.*
-       FROM user u,user_role ur,menu_role mr,menu m
-       where u.id = ur.user_id and m.id = mr.menu_id and ur.role_id = mr.role_id and u.id = #{userId}
+       where u.id = ur.user_id and m.id = mr.menu_id and ur.role_id = mr.role_id  and u.username = #{userName}
     </select>
     <!--查询单个-->
     <select id="queryById" resultMap="MenuMap">
         select
-          id, pid, url, resources, title, icon, type, remarks, gmt_create, gmt_modified
+          id, icon, name, pid, sort, component, api_url type, hidden, gmt_create
         from times.menu
         where id = #{id}
     </select>
@@ -36,7 +30,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="MenuMap">
         select
-          id, pid, url, resources, title, icon, type, remarks, gmt_create, gmt_modified
+          id, icon, name, pid, sort, component, api_url,type, hidden, gmt_create
         from times.menu
         limit #{offset}, #{limit}
     </select>
@@ -44,78 +38,80 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="MenuMap">
         select
-          id, pid, url, resources, title, icon, type, remarks, gmt_create, gmt_modified
+          id, icon, name, pid, sort, component, api_url, type, hidden, gmt_create
         from times.menu
         <where>
             <if test="id != null">
                 and id = #{id}
             </if>
-            <if test="pid != null and pid != ''">
-                and pid = #{pid}
-            </if>
-            <if test="url != null and url != ''">
-                and url = #{url}
-            </if>
-            <if test="resources != null and resources != ''">
-                and resources = #{resources}
-            </if>
-            <if test="title != null and title != ''">
-                and title = #{title}
-            </if>
             <if test="icon != null and icon != ''">
                 and icon = #{icon}
             </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+            <if test="component != null and component != ''">
+                and component = #{component}
+            </if>
+            <if test="apiUrl != null and apiUrl != ''">
+                and api_url = #{apiUrl}
+            </if>
+
             <if test="type != null and type != ''">
                 and type = #{type}
             </if>
-            <if test="remarks != null and remarks != ''">
-                and remarks = #{remarks}
+            <if test="hidden != null">
+                and hidden = #{hidden}
             </if>
             <if test="gmtCreate != null">
                 and gmt_create = #{gmtCreate}
-            </if>
-            <if test="gmtModified != null">
-                and gmt_modified = #{gmtModified}
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into times.menu(pid, url, resources, title, icon, type, remarks, gmt_create, gmt_modified)
-        values (#{pid}, #{url}, #{resources}, #{title}, #{icon}, #{type}, #{remarks}, #{gmtCreate}, #{gmtModified})
+        insert into times.menu(icon, name, pid, sort, component, api_url, type, hidden, gmt_create)
+        values (#{icon}, #{name}, #{pid}, #{sort}, #{component}, #{apiUrl}, #{apiMethods}, #{type}, #{hidden}, #{gmtCreate})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update times.menu
         <set>
-            <if test="pid != null and pid != ''">
-                pid = #{pid},
-            </if>
-            <if test="url != null and url != ''">
-                url = #{url},
-            </if>
-            <if test="resources != null and resources != ''">
-                resources = #{resources},
-            </if>
-            <if test="title != null and title != ''">
-                title = #{title},
-            </if>
             <if test="icon != null and icon != ''">
                 icon = #{icon},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="component != null and component != ''">
+                component = #{component},
+            </if>
+
+            <if test="apiMethods != null and apiMethods != ''">
+                api_methods = #{apiMethods},
             </if>
             <if test="type != null and type != ''">
                 type = #{type},
             </if>
-            <if test="remarks != null and remarks != ''">
-                remarks = #{remarks},
+            <if test="hidden != null">
+                hidden = #{hidden},
             </if>
             <if test="gmtCreate != null">
                 gmt_create = #{gmtCreate},
-            </if>
-            <if test="gmtModified != null">
-                gmt_modified = #{gmtModified},
             </if>
         </set>
         where id = #{id}

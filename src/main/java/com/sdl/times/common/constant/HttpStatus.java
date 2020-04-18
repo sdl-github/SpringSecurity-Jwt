@@ -2,10 +2,8 @@ package com.sdl.times.common.constant;
 
 /**
  * 返回状态码
- *
  */
-public interface HttpStatus
-{
+public interface HttpStatus {
     /**
      * 操作成功
      */

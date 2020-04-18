@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +24,8 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             throws IOException, ServletException {
         SecurityUser loginUser = jwtService.getLoginUser(request);
         if (StringUtil.isNotNull(loginUser)){
-            String userName = loginUser.getUsername();
-            jwtService.delLoginUser(jwtService.getToken(request));
+
+            jwtService.delLoginUser(loginUser.getUserKey());
         }
         ServletUtil.renderString(response, JSON.toJSONString(Result.error(HttpStatus.SUCCESS, "退出成功")));
     }
